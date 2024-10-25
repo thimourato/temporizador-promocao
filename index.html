@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temporizador de Oferta</title>
     <style>
-        /* Estilo geral da página */
         body { 
             display: flex;
             justify-content: center;
@@ -15,36 +14,59 @@
             background: transparent;
         }
 
-        /* Estilo do temporizador */
-        .timer {
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            font-size: 2em;
-            color: #e06141;
-            text-align: center;
-            padding: 0;
-            margin: 0;
-            line-height: 1; /* Remove o espaço extra entre linhas */
-        }
-
-        /* Estilo para limitar a largura */
         .container {
             width: auto;
             max-width: 600px;
-            padding: 0;
+            text-align: center;
+        }
+
+        .timer {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            color: #e06141;
+            font-size: 2em;
             display: flex;
             justify-content: center;
+            gap: 10px;
+        }
+
+        .time-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .label {
+            font-size: 0.8em;
+            margin-top: 5px;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="timer" id="timer"></div>
+        <div class="timer" id="timer">
+            <div class="time-box">
+                <span id="days">0</span>
+                <span class="label">Dias</span>
+            </div>
+            <div class="time-box">
+                <span id="hours">0</span>
+                <span class="label">Horas</span>
+            </div>
+            <div class="time-box">
+                <span id="minutes">0</span>
+                <span class="label">Min</span>
+            </div>
+            <div class="time-box">
+                <span id="seconds">0</span>
+                <span class="label">Seg</span>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Configuração da data de término
-        const endDate = new Date("2024-10-25T23:59:59").getTime();
+        const endDate = new Date("2024-10-27T23:59:59").getTime();
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -56,14 +78,15 @@
                 const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
-                document.getElementById("timer").innerHTML = 
-                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                document.getElementById("days").innerHTML = days;
+                document.getElementById("hours").innerHTML = hours;
+                document.getElementById("minutes").innerHTML = minutes;
+                document.getElementById("seconds").innerHTML = seconds;
             } else {
                 document.getElementById("timer").innerHTML = "Promoção encerrada!";
             }
         }
 
-        // Atualiza o temporizador a cada segundo
         setInterval(updateTimer, 1000);
     </script>
 </body>
