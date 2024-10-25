@@ -94,12 +94,17 @@
 
     <script>
         function updateCountdown() {
-            const endDate = new Date('2024-10-25T23:59:59').getTime();
+            // Define a data final no fuso horário de Brasília (UTC-3)
+            const endDateBrasilia = new Date('2024-10-27T23:59:59-03:00');
             
             function update() {
-                const now = new Date().getTime();
-                const distance = endDate - now;
+                // Obtém a data atual no fuso horário local do usuário
+                const now = new Date();
+                
+                // Calcula a diferença em milissegundos
+                const distance = endDateBrasilia.getTime() - now.getTime();
 
+                // Cálculos para dias, horas, minutos e segundos
                 const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
