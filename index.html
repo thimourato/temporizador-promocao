@@ -1,107 +1,77 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temporizador de Oferta</title>
+    <title>Contador Regressivo</title>
     <style>
-        body { 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            margin: 0;
-            background: transparent;
-            padding: 0;
-        }
-
-        .container {
-            width: auto;
-            max-width: 564px;
-            text-align: center;
-            padding: 0;
-            margin: 0;
-        }
-
-        .timer {
+        /* Estilo do contador */
+        .contador {
             font-family: Arial, sans-serif;
-            font-weight: bold;
             color: #e06141;
-            font-size: 1.8em;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 0;
-            padding: 0;
-            line-height: 1;
+            text-align: center;
+            font-size: 2em;
         }
-
-        .time-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .unidade {
+            display: inline-block;
+            margin: 0 10px;
         }
-
         .label {
-            font-size: 0.6em;
-            text-transform: uppercase;
-            color: #e06141;
-            font-weight: bold;
-        }
-
-        .timer span {
-            font-size: 1.5em;
+            display: block;
+            font-size: 0.5em;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="timer" id="timer">
-            <div class="time-box">
-                <span id="days">00</span>
-                <span class="label">Dias</span>
-            </div>
-            <span>:</span>
-            <div class="time-box">
-                <span id="hours">00</span>
-                <span class="label">Horas</span>
-            </div>
-            <span>:</span>
-            <div class="time-box">
-                <span id="minutes">00</span>
-                <span class="label">Minutos</span>
-            </div>
-            <span>:</span>
-            <div class="time-box">
-                <span id="seconds">00</span>
-                <span class="label">Segundos</span>
-            </div>
+    <div id="contador" class="contador">
+        <div class="unidade">
+            <span id="dias">00</span>
+            <span class="label">Dias</span>
+        </div>
+        <div class="unidade">
+            <span id="horas">00</span>
+            <span class="label">Horas</span>
+        </div>
+        <div class="unidade">
+            <span id="minutos">00</span>
+            <span class="label">Minutos</span>
+        </div>
+        <div class="unidade">
+            <span id="segundos">00</span>
+            <span class="label">Segundos</span>
         </div>
     </div>
 
     <script>
-        const endDate = new Date("2024-10-27T23:59:59").getTime();
+        // Data de término do contador
+        const dataTermino = new Date('October 27, 2024 23:59:59 GMT-0300').getTime();
 
-        function updateTimer() {
-            const now = new Date().getTime();
-            const remaining = endDate - now;
+        // Atualiza o contador a cada segundo
+        const intervalo = setInterval(() => {
+            const agora = new Date().getTime();
+            const distancia = dataTermino - agora;
 
-            if (remaining > 0) {
-                const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+            // Calcula o tempo restante
+            const dias = Math.floor(distancia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((distancia % (1000 * 60)) / 1000);
 
-                document.getElementById("days").innerHTML = String(days).padStart(2, '0');
-                document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
-                document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
-                document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
-            } else {
-                document.getElementById("timer").innerHTML = "Promoção encerrada!";
+            // Exibe o resultado
+            document.getElementById('dias').innerText = dias.toString().padStart(2, '0');
+            document.getElementById('horas').innerText = horas.toString().padStart(2, '0');
+            document.getElementById('minutos').innerText = minutos.toString().padStart(2, '0');
+            document.getElementById('segundos').innerText = segundos.toString().padStart(2, '0');
+
+            // Se a contagem terminar, exibe zeros
+            if (distancia < 0) {
+                clearInterval(intervalo);
+                document.getElementById('dias').innerText = '00';
+                document.getElementById('horas').innerText = '00';
+                document.getElementById('minutos').innerText = '00';
+                document.getElementById('segundos').innerText = '00';
             }
-        }
-
-        setInterval(updateTimer, 1000);
+        }, 1000);
     </script>
 </body>
 </html>
