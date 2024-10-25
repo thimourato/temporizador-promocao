@@ -24,10 +24,10 @@
             font-family: Arial, sans-serif;
             font-weight: bold;
             color: #e06141;
-            font-size: 2em;
+            font-size: 3em;
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 20px;
         }
 
         .time-box {
@@ -40,6 +40,12 @@
             font-size: 0.8em;
             margin-top: 5px;
             text-transform: uppercase;
+            color: #e06141;
+            font-weight: bold;
+        }
+
+        .timer span {
+            font-size: 2.5em;
         }
     </style>
 </head>
@@ -47,20 +53,20 @@
     <div class="container">
         <div class="timer" id="timer">
             <div class="time-box">
-                <span id="days">0</span>
+                <span id="days">00</span>
                 <span class="label">Dias</span>
             </div>
             <div class="time-box">
-                <span id="hours">0</span>
+                <span id="hours">00</span>
                 <span class="label">Horas</span>
             </div>
             <div class="time-box">
-                <span id="minutes">0</span>
-                <span class="label">Min</span>
+                <span id="minutes">00</span>
+                <span class="label">Minutos</span>
             </div>
             <div class="time-box">
-                <span id="seconds">0</span>
-                <span class="label">Seg</span>
+                <span id="seconds">00</span>
+                <span class="label">Segundos</span>
             </div>
         </div>
     </div>
@@ -78,10 +84,10 @@
                 const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
-                document.getElementById("days").innerHTML = days;
-                document.getElementById("hours").innerHTML = hours;
-                document.getElementById("minutes").innerHTML = minutes;
-                document.getElementById("seconds").innerHTML = seconds;
+                document.getElementById("days").innerHTML = String(days).padStart(2, '0');
+                document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
             } else {
                 document.getElementById("timer").innerHTML = "Promoção encerrada!";
             }
