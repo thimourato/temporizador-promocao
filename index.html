@@ -1,147 +1,107 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporizador de Oferta</title>
     <style>
-        .countdown-container {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
+        body { 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin: 0;
+            background: transparent;
+            padding: 0;
         }
 
-        .countdown {
+        .container {
+            width: auto;
+            max-width: 564px;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        .timer {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            color: #e06141;
+            font-size: 1.8em;
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin: 20px 0;
+            margin: 0;
+            padding: 0;
+            line-height: 1;
         }
 
-        .countdown-item {
+        .time-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-width: 80px;
         }
 
-        .countdown-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: #FF6B6B;
-            line-height: 1;
-        }
-
-        .countdown-label {
-            font-size: 14px;
-            color: #FF6B6B;
+        .label {
+            font-size: 0.6em;
             text-transform: uppercase;
-            margin-top: 5px;
-        }
-
-        .countdown-separator {
-            font-size: 48px;
+            color: #e06141;
             font-weight: bold;
-            color: #FF6B6B;
-            line-height: 1;
-            margin-top: -5px;
         }
 
-        @media (max-width: 480px) {
-            .countdown-number {
-                font-size: 32px;
-            }
-            
-            .countdown-separator {
-                font-size: 32px;
-            }
-
-            .countdown-item {
-                min-width: 60px;
-            }
-
-            .countdown-label {
-                font-size: 12px;
-            }
+        .timer span {
+            font-size: 1.5em;
         }
     </style>
 </head>
 <body>
-    <div class="countdown-container">
-        <div class="countdown">
-            <div class="countdown-item">
-                <span class="countdown-number" id="days">00</span>
-                <span class="countdown-label">Dias</span>
+    <div class="container">
+        <div class="timer" id="timer">
+            <div class="time-box">
+                <span id="days">00</span>
+                <span class="label">Dias</span>
             </div>
-            <span class="countdown-separator">:</span>
-            <div class="countdown-item">
-                <span class="countdown-number" id="hours">00</span>
-                <span class="countdown-label">Horas</span>
+            <span>:</span>
+            <div class="time-box">
+                <span id="hours">00</span>
+                <span class="label">Horas</span>
             </div>
-            <span class="countdown-separator">:</span>
-            <div class="countdown-item">
-                <span class="countdown-number" id="minutes">00</span>
-                <span class="countdown-label">Minutos</span>
+            <span>:</span>
+            <div class="time-box">
+                <span id="minutes">00</span>
+                <span class="label">Minutos</span>
             </div>
-            <span class="countdown-separator">:</span>
-            <div class="countdown-item">
-                <span class="countdown-number" id="seconds">00</span>
-                <span class="countdown-label">Segundos</span>
+            <span>:</span>
+            <div class="time-box">
+                <span id="seconds">00</span>
+                <span class="label">Segundos</span>
             </div>
         </div>
     </div>
 
     <script>
-        function updateCountdown() {
-            // Define a data final no fuso horário de Brasília (UTC-3)
-            const endDateBrasilia = new Date('2024-10-27T23:59:59-03:00');
-            
-            function update() {
-                // Obtém a data atual no fuso horário local do usuário
-                const now = new Date();
-                
-                // Calcula a diferença em milissegundos
-                const distance = endDateBrasilia.getTime() - now.getTime();
+        const endDate = new Date("2024-10-27T23:59:59").getTime();
 
-                // Cálculos para dias, horas, minutos e segundos
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        function updateTimer() {
+            const now = new Date().getTime();
+            const remaining = endDate - now;
 
-                // Atualiza os elementos da página
-                document.getElementById('days').textContent = String(days).padStart(2, '0');
-                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            if (remaining > 0) {
+                const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
-                // Atualiza os elementos do email quando embedado
-                try {
-                    window.parent.document.getElementById('mail-days').textContent = String(days).padStart(2, '0');
-                    window.parent.document.getElementById('mail-hours').textContent = String(hours).padStart(2, '0');
-                    window.parent.document.getElementById('mail-minutes').textContent = String(minutes).padStart(2, '0');
-                    window.parent.document.getElementById('mail-seconds').textContent = String(seconds).padStart(2, '0');
-                } catch (e) {
-                    // Ignora erros quando não estiver embedado
-                }
-
-                if (distance < 0) {
-                    clearInterval(interval);
-                    ['days', 'hours', 'minutes', 'seconds'].forEach(id => {
-                        document.getElementById(id).textContent = '00';
-                        try {
-                            window.parent.document.getElementById(`mail-${id}`).textContent = '00';
-                        } catch (e) {}
-                    });
-                }
+                document.getElementById("days").innerHTML = String(days).padStart(2, '0');
+                document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
+                document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
+            } else {
+                document.getElementById("timer").innerHTML = "Promoção encerrada!";
             }
-
-            update();
-            const interval = setInterval(update, 1000);
         }
 
-        updateCountdown();
+        setInterval(updateTimer, 1000);
     </script>
 </body>
 </html>
