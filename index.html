@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temporizador de Oferta</title>
     <style>
-        /* Estilo para centralizar e adaptar o temporizador */
+        /* Estilo geral da página */
         body { 
             display: flex;
             justify-content: center;
@@ -14,19 +14,33 @@
             margin: 0;
             background: transparent;
         }
+
         /* Estilo do temporizador */
         .timer {
-            font-size: 2em;
+            font-family: Arial, sans-serif;
             font-weight: bold;
+            font-size: 2em;
             color: #e06141;
             text-align: center;
-            width: 100%;
+            padding: 0;
+            margin: 0;
+            line-height: 1; /* Remove o espaço extra entre linhas */
+        }
+
+        /* Estilo para limitar a largura */
+        .container {
+            width: auto;
             max-width: 600px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
 <body>
-    <div class="timer" id="timer"></div>
+    <div class="container">
+        <div class="timer" id="timer"></div>
+    </div>
 
     <script>
         // Configuração da data de término
@@ -43,7 +57,7 @@
                 const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
 
                 document.getElementById("timer").innerHTML = 
-                    `${days}d ${hours}h ${minutes}m ${seconds}s restantes`;
+                    `${days}d ${hours}h ${minutes}m ${seconds}s`;
             } else {
                 document.getElementById("timer").innerHTML = "Promoção encerrada!";
             }
